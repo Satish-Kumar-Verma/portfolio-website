@@ -38,7 +38,17 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'main',
+    'tailwind',
+    'theme',
 ]
+
+TAILWIND_APP_NAME = 'theme'
+
+INTERNAL_IPS = [
+    "127.0.0.1",
+]
+
+NPM_BIN_PATH = r"C:\Program Files\nodejs\npm.cmd"
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -55,7 +65,7 @@ ROOT_URLCONF = 'portfolio.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'main' / 'templates' / 'main'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -79,7 +89,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',  # Use the MySQL engine
         'NAME': 'portfolio',         # Replace with your database name
         'USER': 'root',         # Replace with your MySQL username
-        'PASSWORD': 'Hla@013', # Replace with your MySQL password
+        'PASSWORD': '2882004@yoon', # Replace with your MySQL password
         'HOST': 'localhost',                  # Or the IP of your database server
         'PORT': '3306',                       # Default MySQL port
     }

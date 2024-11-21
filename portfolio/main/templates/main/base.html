@@ -1,0 +1,202 @@
+{% load static tailwind_tags %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio</title>
+    {% tailwind_css %}
+    <style>
+        /* Background pattern */
+.services-section {
+    background: url('/static/black-orange-background-with-wavy-pattern.jpg'), #ddd9d9;
+    border-radius: 50px;
+}
+
+/* For cards */
+.service-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.service-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
+}
+
+/* Background image for section */
+.bg-pattern {
+    background: url('/static/light-yellow-abstract-background-3d-illustration-3d-rendering.png');
+    background-repeat: no-repeat;
+    background-size: contain;
+    filter: blur(2.5px);
+    z-index: 0;
+    opacity: 0.8;
+}
+
+/* Button */
+.cta-btn {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f97316; /* or any desired color */
+    border-radius: 50%; /* to create a circle */
+    width: 50px; /* adjust size */
+    height: 50px; /* adjust size */
+    text-decoration: none; /* remove underline */
+    padding: 10px;
+}
+
+.cta-btn svg {
+    display: block;
+    margin: auto;
+    color: white;
+    width: 24px; /* adjust size of the icon */
+    height: 24px; /* adjust size of the icon */
+}
+
+
+
+.cta-btn:hover {
+    background-color: #ea580c; /* Tailwind's orange-600 */
+}
+
+    </style>
+</head>
+<body class="bg-white font-sans">
+
+    <!-- Navbar -->
+<nav class="bg-green-700 text-white py-3 px-8 rounded-full w-4/5 mx-auto mt-6 shadow-lg">
+    <div class="flex justify-between items-center">
+        <!-- Logo -->
+        <div class="text-lg font-bold">
+            <span class="text-orange-500">JC</span>REA
+        </div>
+
+        <!-- Menu -->
+        <ul class="flex space-x-6 items-center">
+            <!-- Active Menu Item -->
+            <li>
+                <a href="#" class="bg-orange-500 text-white py-2 px-6 rounded-full shadow-md font-semibold">
+                    Home
+                </a>
+            </li>
+            <!-- Other Menu Items -->
+            <li>
+                <a href="#" class="hover:text-orange-500 transition duration-300">
+                    About
+                </a>
+            </li>
+            <li>
+                <a href="#" class="hover:text-orange-500 transition duration-300">
+                    Service
+                </a>
+            </li>
+            <li>
+                <a href="#" class="hover:text-orange-500 transition duration-300">
+                    Resume
+                </a>
+            </li>
+            <li>
+                <a href="#" class="hover:text-orange-500 transition duration-300">
+                    Project
+                </a>
+            </li>
+            <li>
+                <a href="#" class="hover:text-orange-500 transition duration-300">
+                    Contact
+                </a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+
+
+    <!-- Hero Section -->
+    <header class="container mx-auto flex flex-col md:flex-row items-center mt-16 ">
+        <!-- Left Section -->
+        <div class="flex-1 text-center md:text-left">
+            <h1 class="text-4xl md:text-5xl font-bold">
+                I'm <span class="text-orange-500">Jenny</span>,<br> Product Designer
+            </h1>
+            <p class="mt-4 text-gray-700 italic">
+                "Jenny's exceptional product design ensures our website's success. Highly Recommended."
+            </p>
+            <div class="mt-6 flex justify-center md:justify-start space-x-4">
+                <a href="#" class="bg-orange-500 text-white py-2 px-6 rounded-lg shadow-md hover:bg-orange-600">Portfolio</a>
+                <a href="#" class="border-2 border-orange-500 text-orange-500 py-2 px-6 rounded-lg hover:bg-orange-100">Hire me</a>
+            </div>
+        </div>
+
+        <!-- Right Section -->
+        <div class="flex-1 mt-8 md:mt-0 relative">
+            <div class="bg-orange-100 rounded-full w-72 h-72 mx-auto relative">
+                <img src="{% static 'path-to-your-image.png' %}" alt="Jenny" class="rounded-full w-full h-full absolute top-0 left-0">
+            </div>
+            <div class="absolute top-0 right-0 text-orange-500 text-center">
+                <p class="text-2xl font-bold">10 Years</p>
+                <p class="text-sm text-gray-700">Experience</p>
+            </div>
+        </div>
+    </header>
+
+     <!-- My Services Section -->
+     <section class="services-section relative py-16 mx-20 rounded-3xl bg-opacity-20 backdrop-blur-lg shadow-lg ">
+        <div class="relative z-10 text-center mb-16">
+            <h2 class="text-4xl font-bold text-gray-900">My <span class="text-orange-500">Services</span></h2>
+            <p class="text-gray-900 mt-4">Delivering professional designs and exceptional quality to meet your expectations.</p>
+        </div>
+        <div class="relative">
+            <div class="bg-pattern absolute inset-0 z-0"></div>
+            <div class="container mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 px-6 relative z-10">
+                <!-- Service Card 1 -->
+                <div class="service-card bg-gray-700 bg-opacity-50 backdrop-blur-lg rounded-2xl p-6">
+                    <div class="relative overflow-hidden rounded-xl mb-4">
+                        <img src="{% static 'path-to-uiux-design-image.jpg' %}" alt="UI/UX Design" class="object-cover w-full h-48">
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">UI/UX Design</h3>
+                    <p class="text-gray-800 text-sm mb-4">Crafting intuitive and visually appealing interfaces for seamless user experiences.</p>
+                    <a href="#" class="cta-btn">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-5 h-5">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                        </svg>
+                    </a>
+                </div>
+                <div class="service-card bg-gray-700 bg-opacity-50 backdrop-blur-lg rounded-2xl p-6">
+                    <div class="relative overflow-hidden rounded-xl mb-4">
+                        <img src="{% static 'path-to-uiux-design-image.jpg' %}" alt="UI/UX Design" class="object-cover w-full h-48">
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">UI/UX Design</h3>
+                    <p class="text-gray-800 text-sm mb-4">Crafting intuitive and visually appealing interfaces for seamless user experiences.</p>
+                    <a href="#" class="cta-btn">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-5 h-5">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                        </svg>
+                    </a>
+                </div>
+                <div class="service-card bg-gray-700 bg-opacity-50 backdrop-blur-lg rounded-2xl p-6">
+                    <div class="relative overflow-hidden rounded-xl mb-4">
+                        <img src="{% static 'path-to-uiux-design-image.jpg' %}" alt="UI/UX Design" class="object-cover w-full h-48">
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">UI/UX Design</h3>
+                    <p class="text-gray-800 text-sm mb-4">Crafting intuitive and visually appealing interfaces for seamless user experiences.</p>
+                    <a href="#" class="cta-btn">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-5 h-5">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                        </svg>
+                    </a>
+                    
+                </div>
+                <!-- Repeat similar structure for other services -->
+            </div>
+        </div>
+    </section>
+    
+
+    
+</body>
+</html>
