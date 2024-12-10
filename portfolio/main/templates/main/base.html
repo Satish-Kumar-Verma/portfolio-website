@@ -24,294 +24,389 @@
                 transform: translateY(-100%);
             }
         }
-        </style>
-    <style>
-        .test {
-            background: rgba(255, 255, 255, 0.19);
-            border-radius: 16px;
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-            backdrop-filter: blur(0px);
-            -webkit-backdrop-filter: blur(0px);
+
+        /* Keyframes for bubble movement to simulate water flow */
+        @keyframes moveBubbles {
+            0% {
+                transform: translateX(-60%) translateY(0);
+            }
+            50% {
+                transform: translateX(0%) translateY(-10%);
+            }
+            100% {
+                transform: translateX(200%) translateY(10%);
+            }
         }
+
+        .bubble-small {
+            animation: moveBubbles 4s ease-in-out infinite;
+            opacity: 0.7;
+        }
+
+        /* Dynamic delay and duration for a flowing water effect */
+        .bubble-small:nth-child(odd) {
+            animation-duration: 6s;
+        }
+        .bubble-small:nth-child(even) {
+            animation-duration: 7s;
+        }
+
+        /* Staggered delays for each bubble to simulate flow */
+        .bubble-small:nth-child(1) { animation-delay: 0s; }
+        .bubble-small:nth-child(2) { animation-delay: 1s; }
+        .bubble-small:nth-child(3) { animation-delay: 2s; }
+        .bubble-small:nth-child(4) { animation-delay: 3s; }
+        .bubble-small:nth-child(5) { animation-delay: 4s; }
+        .bubble-small:nth-child(6) { animation-delay: 5s; }
+        .bubble-small:nth-child(7) { animation-delay: 6s; }
+        .bubble-small:nth-child(8) { animation-delay: 4s; }
+        .bubble-small:nth-child(9) { animation-delay: 3s; }
+        .bubble-small:nth-child(10) { animation-delay: 2s; }
+        .bubble-small:nth-child(11) { animation-delay: 1s; }
+        .bubble-small:nth-child(12) { animation-delay: 0s; }
+
     </style>
+    
 </head>
 
-<body class="bg-white font-sans">
+<body class="bg-white dark:bg-black font-sans">
 
     <!-- Navbar -->
-    <nav class="bg-black text-white py-1 px-1 rounded-full mx-auto mt-6 shadow-lg">
-        <div class="flex justify-between items-center">
-            <!-- Menu -->
-            <a href="#" class="bg-green-500 text-white py-3 px-6 rounded-full shadow-md font-semibold">
+    <nav class="bg-green-600 dark:bg-green-200 text-white dark:text-gray-800 py-3 px-4 mt-6 shadow-lg mx-4 md:mx-12 rounded-xl">
+    <div class="flex items-center justify-between space-x-4">
+        <!-- Logo -->
+        <div class="text-lg font-bold flex-1 md:flex-none text-center md:text-left px-4">
+            <span class="text-green-400 dark:text-green-600">JC</span>REA
+        </div>
+
+        <!-- Hamburger Menu (Mobile Only) -->
+        <button class="block md:hidden focus:outline-none" id="menu-toggle">
+            <svg class="w-6 h-6 text-white dark:text-gray-900" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+            </svg>
+        </button>
+
+        <!-- Menu Items -->
+        <div class="hidden md:flex flex-1 md:flex-row justify-center items-center space-x-8 mt-4 md:mt-0" id="menu-items">
+            <a href="#home" class="bg-green-400 dark:bg-green-700 text-white py-2 px-4 rounded-full shadow-md font-semibold transition hover:bg-green-700 dark:hover:bg-green-800">
                 Home
             </a>
-            <a href="#" class="hover:text-green-500 transition duration-300">
+            <a href="#about" class="hover:text-green-800 dark:hover:text-green-400 transition duration-300">
                 About
             </a>
-            <a href="#" class="hover:text-green-500 transition duration-300">
+            <a href="#service" class="hover:text-green-800 dark:hover:text-green-400 transition duration-300">
                 Service
             </a>
-
-            <!-- Logo -->
-            <div class="text-lg font-bold">
-                <span class="text-green-500">JC</span>REA
-            </div>
-
-            <a href="#" class="hover:text-green-500 transition duration-300">
+            <a href="#resume" class="hover:text-green-800 dark:hover:text-green-400 transition duration-300">
                 Resume
             </a>
-            <a href="#" class="hover:text-green-500 transition duration-300">
+            <a href="#project" class="hover:text-green-800 dark:hover:text-green-400 transition duration-300">
                 Project
             </a>
-
-            <a href="#" class="hover:text-green-500 transition duration-300 px-6">
+            <a href="#contact" class="hover:text-green-800 dark:hover:text-green-400 transition duration-300 px-4">
                 Contact
             </a>
         </div>
-    </nav>
+
+        <!-- Dark Mode Toggle (Now on the Right) -->
+        <button id="dark-mode-toggle" class="flex items-center justify-center p-2 rounded-full bg-gray-800 text-white ml-auto transition-all duration-300">
+            <div class="relative">
+                <input type="checkbox" id="dark-toggle" class="hidden" />
+                <div class="bg-gray-300 w-12 h-6 rounded-full relative flex items-center cursor-pointer transition-all">
+                    <div class="bg-white w-6 h-6 rounded-full absolute left-0 transition-transform duration-300 transform" id="toggle-circle"></div>
+                </div>
+                <div class="absolute top-0.5 dark:top-1 text-sm px-1 dark:px-7 text-gray-700 ">
+                    <svg id="sun-icon" class="w-4 h-4 hidden" fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v2m0 14v2m9-10h-2m-14 0H3m15.364-7.364l-1.414 1.414m-12.02 12.02l-1.414-1.414m1.414-12.02l-1.414 1.414m12.02 12.02l-1.414-1.414M12 5a7 7 0 110 14 7 7 0 010-14z" />
+                    </svg>
+                    <svg id="moon-icon" class="w-4 h-4" fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.293 14.707A8 8 0 118.707 6.293a8 8 0 008.586 8.414z" />
+                    </svg>
+                </div>
+            </div>
+        </button>
+    </div>
+
+    <!-- Mobile Dropdown Menu -->
+    <div class="md:hidden hidden flex-col space-y-4 mt-4" id="mobile-menu">
+        <a href="#home" class="block bg-green-400 dark:bg-green-700 text-white py-2 px-4 rounded-full shadow-md font-semibold">
+            Home
+        </a>
+        <a href="#about" class="block hover:text-green-800 dark:hover:text-green-400 transition duration-300">
+            About
+        </a>
+        <a href="#service" class="block hover:text-green-800 dark:hover:text-green-400 transition duration-300">
+            Service
+        </a>
+        <a href="#resume" class="block hover:text-green-800 dark:hover:text-green-400 transition duration-300">
+            Resume
+        </a>
+        <a href="#project" class="block hover:text-green-800 dark:hover:text-green-400 transition duration-300">
+            Project
+        </a>
+        <a href="#contact" class="block hover:text-green-800 dark:hover:text-green-400 transition duration-300">
+            Contact
+        </a>
+    </div>
+</nav>
+
+    
+    
+    
+<script>
+    // Toggle for Mobile Menu
+    const menuToggle = document.getElementById('menu-toggle');
+    const mobileMenu = document.getElementById('mobile-menu');
+    menuToggle.addEventListener('click', () => {
+        mobileMenu.classList.toggle('hidden');
+    });
+
+    // Dark Mode Toggle
+    const darkModeToggle = document.getElementById('dark-mode-toggle');
+    const toggleCircle = document.getElementById('toggle-circle');
+    const sunIcon = document.getElementById('sun-icon');
+    const moonIcon = document.getElementById('moon-icon');
+    const darkToggleCheckbox = document.getElementById('dark-toggle');
+    
+    // Check saved theme in localStorage
+    const currentTheme = localStorage.getItem('theme') || 'light';
+    if (currentTheme === 'dark') {
+        document.documentElement.classList.add('dark');
+        sunIcon.classList.remove('hidden');
+        moonIcon.classList.add('hidden');
+        darkToggleCheckbox.checked = true;  // Ensure checkbox reflects dark mode state
+        toggleCircle.classList.add('translate-x-6');  // Move the toggle circle to the right
+    }
+
+    // Dark mode toggle functionality
+    darkModeToggle.addEventListener('click', () => {
+        // Toggle the dark mode class
+        const isDarkMode = document.documentElement.classList.toggle('dark');
+        
+        // Toggle the toggle circle position (move it left or right)
+        toggleCircle.classList.toggle('translate-x-6', isDarkMode);
+        
+        // Toggle icons
+        sunIcon.classList.toggle('hidden', !isDarkMode);
+        moonIcon.classList.toggle('hidden', isDarkMode);
+
+        // Update the checkbox state
+        darkToggleCheckbox.checked = isDarkMode;
+
+        // Save the user's theme preference
+        localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
+    });
+</script>
+
+    
+    
 
     <!-- Hero Section -->
-    <header class="container mt-16 mx-12">
-        <h1 class="text-4xl md:text-5xl font-bold text-center">
+    <header class="container mx-auto mt-16 px-6 md:px-12">
+        <h1 class="text-3xl md:text-5xl font-bold text-center leading-tight dark:text-white">
             I'm <span class="text-green-500">Jenny</span>,<br> Product Designer
         </h1>
-        <div class="mx-auto flex flex-col md:flex-row items-center">
+    
+        <div class="flex flex-col md:flex-row items-center md:items-start mt-8 space-y-8 md:space-y-0 md:space-x-12">
             <!-- Left Section -->
             <div class="flex-1 text-center md:text-left">
-                <p class="mt-4 text-gray-700 text-lg italic">
+                <p class="mt-4 text-gray-700 text-lg italic leading-relaxed dark:text-gray-200">
                     "Jenny's exceptional product design ensures our website's success. Highly Recommended."
                 </p>
             </div>
-
+    
             <!-- Middle Section -->
-            <div class="flex-2 text-center md:text-left mt-8 md:mt-0">
-                <div class="bg-green-100 rounded-full w-72 h-72 mx-auto relative">
+            <div class="flex-[2] text-center">
+                <div class="bg-green-100 rounded-full w-56 h-56 md:w-72 md:h-72 mx-auto relative shadow-lg overflow-hidden">
                     <img src="{% static 'path-to-your-image.png' %}" alt="Jenny"
-                        class="rounded-full w-full h-full absolute top-0 left-0">
+                        class="rounded-full w-full h-full absolute top-0 left-0 object-cover">
                 </div>
-                <div class="mt-6 flex justify-center space-x-4">
+                <div class="mt-6 flex flex-wrap justify-center space-x-4">
                     <a href="#"
-                        class="bg-green-500 text-white py-2 px-6 rounded-lg shadow-md hover:bg-green-600">Portfolio</a>
+                        class="bg-green-500 text-white py-2 px-6 rounded-lg shadow-md hover:bg-green-600 transition">
+                        Portfolio
+                    </a>
                     <a href="#"
-                        class="border-2 border-green-500 text-green-500 py-2 px-6 rounded-lg hover:bg-green-100">Hire
-                        me</a>
+                        class="border-2 border-green-500 text-green-500 py-2 px-6 rounded-lg hover:bg-green-100 transition">
+                        Hire me
+                    </a>
                 </div>
             </div>
-
+    
             <!-- Right Section -->
-            <div class="flex-1 mt-8 md:mt-0 relative justify-center">
-                <div class="absolute top-0 right-20">
-                    <p class="text-2xl font-bold">10 Years</p>
-                    <p class="text-sm text-gray-700 text-right">Experience</p>
+            <div class="flex-1 mt-8 md:mt-0 md:relative">
+                <div class="md:absolute md:static md:mt-4 lg:mt-0 right-0 md:right-auto">
+                    <p class="text-3xl font-bold text-green-500">10 Years</p>
+                    <p class="text-sm text-gray-700 dark:text-gray-200">Experience</p>
                 </div>
             </div>
         </div>
     </header>
 
-    <div
-        class="flex items-center justify-center min-h-screen bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500 relative">
-        <!-- Background Text -->
-        <div class="absolute inset-0 text-white text-5xl font-bold opacity-10 flex justify-center items-center">
-            Background Text
+    <section id="about" class="relative bg-gradient-to-br from-green-500 via-teal-500 to-emerald-500 dark:from-green-900 dark:via-teal-900 dark:to-green-900 py-16 overflow-hidden mt-12">
+        <!-- Background Bubbles -->
+        <div class="absolute inset-0 z-0">
+            <svg class="absolute top-0 left-0 w-full h-full opacity-25" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+                <!-- Looped Bubble Creation -->
+                <circle cx="0" cy="30" r="4" fill="white" class="bubble-small" />
+                <circle cx="10" cy="20" r="4" fill="white" class="bubble-small" />
+                <circle cx="50" cy="60" r="4" fill="white" class="bubble-small" />
+                <circle cx="90" cy="100" r="4" fill="white" class="bubble-small" />
+                <circle cx="15" cy="30" r="4" fill="white" class="bubble-small" />
+                <circle cx="45" cy="75" r="3" fill="white" class="bubble-small" />
+                <circle cx="85" cy="110" r="5" fill="white" class="bubble-small" />
+                <circle cx="130" cy="150" r="4" fill="white" class="bubble-small" />
+                <circle cx="160" cy="190" r="3" fill="white" class="bubble-small" />
+                <circle cx="30" cy="50" r="3" fill="white" class="bubble-small" />
+                <circle cx="70" cy="80" r="4" fill="white" class="bubble-small" />
+                <circle cx="120" cy="140" r="5" fill="white" class="bubble-small" />
+            </svg>
         </div>
-
-        <!-- Glass Card -->
-        <div class="relative p-8 rounded-2xl shadow-xl backdrop-blur-md bg-white/20 border border-white/10">
-            <h2 class="text-3xl font-bold text-gray-900">Glass Card</h2>
-            <p class="mt-4 text-gray-700">
-                This is a frosted glass-like card. The text behind the card is visible, creating a modern glass effect.
-            </p>
-            <button class="mt-6 px-6 py-2 bg-green-500 text-white font-semibold rounded-full hover:bg-green-600">
-                Learn More
-            </button>
-        </div>
-    </div>
-
-
-
-    <div
-        class="flex items-center justify-center min-h-screen bg-gradient-to-br from-green-800 via-teal-900 to-emerald-800 relative">
-        <!-- Background Text -->
-        <div class="absolute inset-0 text-gray-200 text-5xl font-bold opacity-10 flex justify-center items-center">
-            Background Text
-        </div>
-
-        <!-- Glass Card -->
-        <div class="relative p-8 rounded-2xl shadow-lg backdrop-blur-md bg-white/10 border border-white/20">
-            <h2 class="text-2xl font-bold text-gray-100">Glass Card</h2>
-            <p class="mt-4 text-gray-300">
-                This is a frosted glass-like card with a dark green theme. The text behind the card remains visible,
-                creating a modern glass effect.
-            </p>
-            <button class="mt-6 px-6 py-2 bg-green-700 text-gray-100 font-semibold rounded-full hover:bg-green-600">
-                Learn More
-            </button>
-        </div>
-    </div>
-
-    <!-- <div class="flex items-center justify-center min-h-screen bg-black relative">
-        
-        <div
-            class="absolute inset-8 text-green-600 text-right text-5xl font-mono opacity-20 leading-none tracking-wide">
-            010101010101<br />101010101010<br />010101010101<br />101010101010
-        </div>
-
-       
-        <div class="relative p-8 rounded-2xl shadow-xl backdrop-blur-md bg-white/5 border border-green-500/30">
-            <h2 class="text-2xl font-bold text-green-500 tracking-widest">ACCESS GRANTED</h2>
-            <p class="mt-4 text-green-400 font-mono">
-                Welcome to the system. The glass card effect brings a sleek hacker vibe while text remains visible in
-                the background.
-            </p>
-            <button
-                class="mt-6 px-6 py-2 bg-green-600 text-black font-bold font-mono rounded-full hover:bg-green-500 shadow-lg">
-                Proceed
-            </button>
-        </div>
-    </div> -->
-
-
-    <!-- My Services Section -->
-    <!-- <section class="relative py-16 mt-8 rounded-3xl service bg-[url('/static/servicebg.png')] bg-cover bg-center"> -->
-        <section class="py-16 mt-8 rounded-3xl min-h-screen bg-black relative overflow-hidden">
-            <!-- Background Gradient -->
-            <div class="absolute inset-0 bg-gradient-to-b from-black via-gray-900 to-black opacity-80 z-0"></div>
-            
-            <!-- Falling Matrix Effect: Layer 1 -->
-            <div class="absolute animate-[falling_10s_linear_infinite] text-green-500 opacity-10 text-[120px] font-mono leading-none tracking-widest z-10">
-                0101010101010101010101
-            </div>
-            
-            <!-- Falling Matrix Effect: Layer 2 -->
-            <div class="absolute animate-[fallingReverse_15s_linear_infinite] text-green-500 opacity-20 text-[100px] font-mono leading-none tracking-wide z-10">
-                1010101010101010101010
-            </div>
-        
-            <!-- Shaded Binary Code -->
-            <!-- <div
-                class="absolute inset-32 text-green-400 text-left text-[70px] font-mono opacity-20 leading-none tracking-wide z-5">
-                010101010101
-            </div>
-            <div
-                class="absolute inset-6 text-green-600 text-right text-[80px] font-mono opacity-10 leading-none tracking-wide z-5">
-                101010101010
-            </div>
-            <div
-                class="absolute inset-y-96 text-green-500 text-[120px] font-mono opacity-15 leading-none tracking-wide z-5">
-                010101010101
-            </div>
-            <div
-                class="absolute inset-x-10 text-green-400 text-[90px] font-mono opacity-10 leading-none tracking-wide z-5">
-                101010101010
-            </div> -->
-            
-            
-        <div class="mx-12 relative z-10 mb-16 md:flex justify-between">
-            <h2 class="text-4xl font-bold text-gray-100">My <span class="text-green-500">Services</span></h2>
-            <p class="text-gray-100 mt-4">Delivering professional designs and exceptional quality <br> to meet your
-                expectations.</p>
-        </div>
-        <div class="relative">
-            <div class="container mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 px-6 relative z-10">
-                <!-- Service Card -->
-                <div
-                    class="relative group flex flex-col items-center text-center transition-transform duration-300 transform bg-gradient-to-br from-gray-900 via-gray-800 to-black bg-opacity-50 backdrop-blur-xl shadow-lg rounded-3xl p-8 hover:-translate-y-3 hover:shadow-2xl hover:bg-opacity-10 border-2 border-gray-700 border-opacity-50 group-hover:bg-gradient-to-br group-hover:from-gray-900 group-hover:via-gray-600 group-hover:to-gray-800">
-                    <div
-                        class="absolute inset-0.5 rounded-3xl bg-gradient-to-r from-green-500 via-green-400 to-green-600 opacity-0 group-hover:opacity-10 blur-2xl transition-all duration-500">
+    
+        <!-- Content -->
+        <div class="flex flex-col lg:flex-row lg:space-x-12">
+            <!-- Left: Image and Basic Info -->
+            <div class="flex-[2]">
+                <div class="relative flex items-center justify-center mb-8">
+                    <div class="w-48 h-48 bg-gradient-to-b from-teal-300 via-teal-500 to-green-600 dark:from-gray-700 dark:via-gray-800 dark:to-gray-900 rounded-full shadow-lg overflow-hidden">
+                        <img src="{% static 'client1.jpg' %}" alt="Person" class="object-cover w-full h-full">
                     </div>
-
-                    <!-- Image Section (with Gradient Border) -->
-                    <div
-                        class="relative mb-6 rounded-xl bg-gradient-to-br from-green-500 to-green-600 p-[2px] shadow-lg transform transition-all duration-500 hover:scale-105">
-                        <img src="{% static 'servicebg.png' %}" alt="UI/UX Design"
-                            class="object-cover m-0.5 h-48 rounded-lg shadow-inner transition-transform duration-300" />
-                    </div>
-                    <!-- Title -->
-                    <h3 class="text-2xl font-extrabold text-gray-50 mb-2">UI/UX Design</h3>
-                    <!-- Subtle Divider -->
-                    <div class="w-12 h-1 bg-gradient-to-r from-green-400 to-green-600 rounded-full mb-4"></div>
-                    <!-- Description -->
-                    <p class="text-gray-300 text-sm mb-6 leading-relaxed">
-                        Crafting intuitive and visually appealing interfaces for seamless user experiences that truly
-                        stand out.
-                    </p>
-                    <!-- Call-to-Action Button -->
-                    <a href="#"
-                        class="flex items-center justify-center w-12 h-12 rounded-full bg-green-500 bg-opacity-80 shadow-lg hover:bg-green-600 transition-all duration-300 hover:shadow-xl text-white">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
-                            class="w-5 h-5">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                        </svg>
-                    </a>
                 </div>
-                <div
-                    class="relative group flex flex-col items-center text-center transition-transform duration-300 transform bg-gradient-to-br from-gray-900 via-gray-800 to-black bg-opacity-50 backdrop-blur-xl shadow-lg rounded-3xl p-8 hover:-translate-y-3 hover:shadow-2xl hover:bg-opacity-10 border-2 border-gray-700 border-opacity-50 group-hover:bg-gradient-to-br group-hover:from-gray-900 group-hover:via-gray-600 group-hover:to-gray-800">
-                    <div
-                        class="absolute inset-0.5 rounded-3xl bg-gradient-to-r from-green-500 via-green-400 to-green-600 opacity-0 group-hover:opacity-10 blur-2xl transition-all duration-500">
-                    </div>
-
-                    <!-- Image Section (with Gradient Border) -->
-                    <div
-                        class="relative mb-6 rounded-xl bg-gradient-to-br from-green-500 to-green-600 p-[2px] shadow-lg transform transition-all duration-500 hover:scale-105">
-                        <img src="{% static 'servicebg.png' %}" alt="UI/UX Design"
-                            class="object-cover m-0.5 h-48 rounded-lg shadow-inner transition-transform duration-300" />
-                    </div>
-                    <!-- Title -->
-                    <h3 class="text-2xl font-extrabold text-gray-50 mb-2">UI/UX Design</h3>
-                    <!-- Subtle Divider -->
-                    <div class="w-12 h-1 bg-gradient-to-r from-green-400 to-green-600 rounded-full mb-4"></div>
-                    <!-- Description -->
-                    <p class="text-gray-300 text-sm mb-6 leading-relaxed">
-                        Crafting intuitive and visually appealing interfaces for seamless user experiences that truly
-                        stand out.
-                    </p>
-                    <!-- Call-to-Action Button -->
-                    <a href="#"
-                        class="flex items-center justify-center w-12 h-12 rounded-full bg-green-500 bg-opacity-80 shadow-lg hover:bg-green-600 transition-all duration-300 hover:shadow-xl text-white">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
-                            class="w-5 h-5">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                        </svg>
-                    </a>
+                <div class="text-center text-gray-900 dark:text-gray-100">
+                    <h2 class="text-2xl font-bold">Henry Theodore</h2>
+                    <p class="opacity-80 dark:opacity-100">Enter Your Text</p>
+                    <p class="mt-4">Age: <span class="font-semibold">45</span></p>
+                    <p>Gender: <span class="font-semibold">Male</span></p>
+                    <p>Location: <span class="font-semibold">Southgate, Area51</span></p>
                 </div>
-                <div
-                    class="relative group flex flex-col items-center text-center transition-transform duration-300 transform bg-gradient-to-br from-gray-900 via-gray-800 to-black bg-opacity-50 backdrop-blur-xl shadow-lg rounded-3xl p-8 hover:-translate-y-3 hover:shadow-2xl hover:bg-opacity-10 border-2 border-gray-700 border-opacity-50 group-hover:bg-gradient-to-br group-hover:from-gray-900 group-hover:via-gray-600 group-hover:to-gray-800">
-                    <div
-                        class="absolute inset-0.5 rounded-3xl bg-gradient-to-r from-green-500 via-green-400 to-green-600 opacity-0 group-hover:opacity-10 blur-2xl transition-all duration-500">
+            </div>
+    
+            <!-- Right: Details -->
+            <div class="flex-[4]">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <!-- Bio -->
+                    <div>
+                        <h3 class="text-xl font-semibold text-gray-800 dark:text-gray-200">Bio</h3>
+                        <p class="mt-2 text-gray-700 dark:text-gray-300 leading-relaxed">
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis tristique sollicitudin nibh.
+                        </p>
                     </div>
-
-                    <!-- Image Section (with Gradient Border) -->
-                    <div
-                        class="relative mb-6 rounded-xl bg-gradient-to-br from-green-500 to-green-600 p-[2px] shadow-lg transform transition-all duration-500 hover:scale-105">
-                        <img src="{% static 'servicebg.png' %}" alt="UI/UX Design"
-                            class="object-cover m-0.5 h-48 rounded-lg shadow-inner transition-transform duration-300" />
+    
+                    <!-- Wants -->
+                    <div>
+                        <h3 class="text-xl font-semibold text-gray-800 dark:text-gray-200">Wants</h3>
+                        <ul class="mt-2 space-y-2 text-gray-700 dark:text-gray-300">
+                            <li>Morbi tristique senectus</li>
+                            <li>Et netus et malesuada</li>
+                        </ul>
                     </div>
-                    <!-- Title -->
-                    <h3 class="text-2xl font-extrabold text-gray-50 mb-2">UI/UX Design</h3>
-                    <!-- Subtle Divider -->
-                    <div class="w-12 h-1 bg-gradient-to-r from-green-400 to-green-600 rounded-full mb-4"></div>
-                    <!-- Description -->
-                    <p class="text-gray-300 text-sm mb-6 leading-relaxed">
-                        Crafting intuitive and visually appealing interfaces for seamless user experiences that truly
-                        stand out.
-                    </p>
-                    <!-- Call-to-Action Button -->
-                    <a href="#"
-                        class="flex items-center justify-center w-12 h-12 rounded-full bg-green-500 bg-opacity-80 shadow-lg hover:bg-green-600 transition-all duration-300 hover:shadow-xl text-white">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
-                            class="w-5 h-5">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                        </svg>
-                    </a>
+    
+                    <!-- Needs -->
+                    <div>
+                        <h3 class="text-xl font-semibold text-gray-800 dark:text-gray-200">Needs</h3>
+                        <ul class="mt-2 space-y-2 text-gray-700 dark:text-gray-300">
+                            <li>Morbi tristique senectus</li>
+                            <li>Et netus et malesuada</li>
+                        </ul>
+                    </div>
+    
+                    <!-- Frustrations -->
+                    <div>
+                        <h3 class="text-xl font-semibold text-gray-800 dark:text-gray-200">Frustrations</h3>
+                        <ul class="mt-2 space-y-2 text-gray-700 dark:text-gray-300">
+                            <li>Morbi tristique senectus</li>
+                            <li>Et netus et malesuada</li>
+                        </ul>
+                    </div>
+                </div>
+    
+                <!-- Skills -->
+                <div class="mt-12">
+                    <h3 class="text-xl font-semibold text-gray-800 dark:text-gray-200 mb-4">Skills</h3>
+                    <div class="mb-4">
+                        <p class="text-gray-800 dark:text-gray-200">Skill One</p>
+                        <div class="w-5/6 bg-gray-200 dark:bg-gray-700 rounded-full h-2.5">
+                            <div class="bg-green-500 dark:bg-green-400 h-2.5 rounded-full" style="width: 85%;"></div>
+                        </div>
+                    </div>
+                    <div>
+                        <p class="text-gray-800 dark:text-gray-200">Skill Two</p>
+                        <div class="w-5/6 bg-gray-200 dark:bg-gray-700 rounded-full h-2.5">
+                            <div class="bg-green-500 dark:bg-green-400 h-2.5 rounded-full" style="width: 75%;"></div>
+                        </div>
+                    </div>
+                </div>
+    
+                <!-- Favorite Brands -->
+                <div class="mt-12">
+                    <h3 class="text-xl font-semibold text-gray-800 dark:text-gray-200 mb-4">Favorite Brands</h3>
+                    <div class="flex space-x-6 justify-center">
+                        <div class="w-12 h-12 bg-gray-200 dark:bg-gray-800 flex items-center justify-center rounded-full shadow-lg">
+                            <img src="https://via.placeholder.com/40" alt="Brand 1" class="h-8">
+                        </div>
+                        <div class="w-12 h-12 bg-gray-200 dark:bg-gray-800 flex items-center justify-center rounded-full shadow-lg">
+                            <img src="https://via.placeholder.com/40" alt="Brand 2" class="h-8">
+                        </div>
+                        <div class="w-12 h-12 bg-gray-200 dark:bg-gray-800 flex items-center justify-center rounded-full shadow-lg">
+                            <img src="https://via.placeholder.com/40" alt="Brand 3" class="h-8">
+                        </div>
+                        <div class="w-12 h-12 bg-gray-200 dark:bg-gray-800 flex items-center justify-center rounded-full shadow-lg">
+                            <img src="https://via.placeholder.com/40" alt="Brand 4" class="h-8">
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <section class="py-16 bg-white">
+    <!-- My Services Section -->
+    <section id="service" class="py-16 bg-gradient-to-br from-white via-green-50 to-white dark:bg-gradient-to-br dark:from-black dark:via-gray-900 dark:to-black relative overflow-hidden">
+        <!-- Falling Bubbles -->
+        <div class="absolute animate-[falling_10s_linear_infinite] text-green-300 dark:text-green-500 opacity-10 text-[120px] font-mono leading-none tracking-widest z-10">
+            0101010101010101010101
+        </div>
+        <div class="absolute animate-[fallingReverse_15s_linear_infinite] text-green-300 dark:text-green-500 opacity-20 text-[100px] font-mono leading-none tracking-wide z-10">
+            1010101010101010101010
+        </div>
+    
+        <!-- Header -->
+        <div class="mx-12 relative z-10 mb-16 md:flex justify-between">
+            <h2 class="text-4xl font-bold text-gray-900 dark:text-white">My <span class="text-green-600 dark:text-green-500">Services</span></h2>
+            <p class="text-gray-700 dark:text-gray-300 mt-4">
+                Delivering professional designs and exceptional quality <br> to meet your expectations.
+            </p>
+        </div>
+    
+        <!-- Services Cards -->
+        <div class="relative">
+            <div class="container mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 px-6 relative z-10">
+                <!-- Service Card -->
+                <div class="relative group flex flex-col items-center text-center bg-gradient-to-br from-white to-green-100 dark:from-gray-900 dark:via-gray-800 dark:to-black transition-transform duration-300 transform border-2 border-gray-200 dark:border-gray-700 shadow-md rounded-3xl p-8 hover:-translate-y-3 hover:shadow-xl">
+                    
+                    <div class="relative mb-6 bg-gradient-to-br from-teal-500 to-green-400 dark:from-green-500 dark:to-green-600 p-[2px] rounded-xl">
+                        <img src="{% static 'servicebg.png' %}" alt="UI/UX Design" class="object-cover m-0.5 h-48 rounded-lg">
+                    </div>
+    
+                    <h3 class="text-2xl font-extrabold text-gray-800 dark:text-gray-50 mb-2">UI/UX Design</h3>
+                    <div class="w-12 h-1 bg-gradient-to-r from-green-400 to-green-600 rounded-full mb-4"></div>
+                    <p class="text-gray-600 dark:text-gray-300 text-sm leading-relaxed mb-6">
+                        Crafting intuitive and visually appealing interfaces for seamless user experiences.
+                    </p>
+    
+                    <a href="#" class="flex items-center justify-center w-12 h-12 bg-green-500 hover:bg-green-600 rounded-full shadow-md text-white transition-all">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-5 h-5">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+    </section>
+    
+    
+
+    <section id="project"  class="py-16 bg-white">
         <div class="text-center mb-12">
             <h2 class="text-4xl font-bold text-gray-900">
                 My <span class="text-green-500">Work Experience</span>
@@ -417,7 +512,7 @@
     
     
 
-    <footer class="bg-gray-900 text-gray-300 py-12 rounder-md">
+    <footer id="contact" class="bg-gray-900 text-gray-300 py-12 rounder-md">
         <div class="grid gird-col-2 mx-24">
             <p class="text-4xl text-gray-100 px-6 font-semibold">Let's Connect</p>
         </div>

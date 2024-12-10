@@ -1,0 +1,989 @@
+{% load static tailwind_tags %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio</title>
+    {% tailwind_css %}
+    <style>
+        @keyframes falling {
+            0% {
+                transform: translateY(-100%);
+            }
+            100% {
+                transform: translateY(100%);
+            }
+        }
+        @keyframes fallingReverse {
+            0% {
+                transform: translateY(100%);
+            }
+            100% {
+                transform: translateY(-100%);
+            }
+        }
+
+        @keyframes pulse-dots {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.5);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .animate-pulse-dots .dot {
+            animation: pulse-dots 3s infinite;
+        }
+
+        .animate-pulse-dots .dot:nth-child(odd) {
+            animation-duration: 3.5s;
+        }
+
+        .animate-pulse-dots .dot:nth-child(even) {
+            animation-duration: 5s;
+        }
+
+
+            /* Circle Container */
+        .flowing-circles {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            width: 200%;
+            display: flex;
+            gap: 50px;
+            animation: move-circles 10s linear infinite;
+        }
+
+/* Individual Circles */
+.circle {
+    width: 20px;
+    height: 20px;
+    background-color: white;
+    border-radius: 50%;
+    opacity: 0.5;
+    animation: pulse 2s infinite;
+}
+
+/* Pulse Effect for Circles */
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+        opacity: 0.5;
+    }
+    50% {
+        transform: scale(1.5);
+        opacity: 0.8;
+    }
+}
+
+/* Move Circles from Left to Right */
+@keyframes move-circles {
+    0% {
+        transform: translateX(-100%);
+    }
+    100% {
+        transform: translateX(0%);
+    }
+}
+@keyframes moveBubbles {
+        0% {
+            transform: translateX(-10%) translateY(0);
+        }
+        50% {
+            transform: translateX(100%) translateY(-10%);
+        }
+        100% {
+            transform: translateX(200%) translateY(20%);
+        }
+    }
+
+    
+
+    /* Smaller bubbles with faster movement and staggered delays */
+    .bubble-small {
+        animation: moveBubbles 6s linear infinite;
+        opacity: 0.6;
+    }
+    .bubble-small:nth-child(1) {
+        animation-delay: 0.5s;
+    }
+    .bubble-small:nth-child(2) {
+        animation-delay: 1.5s;
+    }
+    .bubble-small:nth-child(3) {
+        animation-delay: 2.5s;
+    }
+    .bubble-small:nth-child(4) {
+        animation-delay: 3s;
+    }
+    .bubble-small:nth-child(5) {
+        animation-delay: 3.5s;
+    }
+    .bubble-small:nth-child(6) {
+        animation-delay: 0.5s;
+    }
+    .bubble-small:nth-child(7) {
+        animation-delay: 1.5s;
+    }
+
+    
+
+    .bubble-small {
+        animation-timing-function: ease-in-out;
+    }
+        </style>
+    
+</head>
+
+<body class="bg-white dark:bg-black font-sans">
+
+    <!-- Navbar -->
+    <nav class="bg-green-600 dark:bg-green-200 text-white dark:text-gray-800 py-3 px-4 mt-6 shadow-lg mx-4 md:mx-12 rounded-xl">
+    <div class="flex items-center justify-between space-x-4">
+        <!-- Logo -->
+        <div class="text-lg font-bold flex-1 md:flex-none text-center md:text-left px-4">
+            <span class="text-green-400 dark:text-green-600">JC</span>REA
+        </div>
+
+        <!-- Hamburger Menu (Mobile Only) -->
+        <button class="block md:hidden focus:outline-none" id="menu-toggle">
+            <svg class="w-6 h-6 text-white dark:text-gray-900" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+            </svg>
+        </button>
+
+        <!-- Menu Items -->
+        <div class="hidden md:flex flex-1 md:flex-row justify-center items-center space-x-8 mt-4 md:mt-0" id="menu-items">
+            <a href="#home" class="bg-green-400 dark:bg-green-700 text-white py-2 px-4 rounded-full shadow-md font-semibold transition hover:bg-green-700 dark:hover:bg-green-800">
+                Home
+            </a>
+            <a href="#about" class="hover:text-green-800 dark:hover:text-green-400 transition duration-300">
+                About
+            </a>
+            <a href="#service" class="hover:text-green-800 dark:hover:text-green-400 transition duration-300">
+                Service
+            </a>
+            <a href="#resume" class="hover:text-green-800 dark:hover:text-green-400 transition duration-300">
+                Resume
+            </a>
+            <a href="#project" class="hover:text-green-800 dark:hover:text-green-400 transition duration-300">
+                Project
+            </a>
+            <a href="#contact" class="hover:text-green-800 dark:hover:text-green-400 transition duration-300 px-4">
+                Contact
+            </a>
+        </div>
+
+        <!-- Dark Mode Toggle (Now on the Right) -->
+        <button id="dark-mode-toggle" class="flex items-center justify-center p-2 rounded-full bg-gray-800 text-white ml-auto transition-all duration-300">
+            <div class="relative">
+                <input type="checkbox" id="dark-toggle" class="hidden" />
+                <div class="bg-gray-300 w-12 h-6 rounded-full relative flex items-center cursor-pointer transition-all">
+                    <div class="bg-white w-6 h-6 rounded-full absolute left-0 transition-transform duration-300 transform" id="toggle-circle"></div>
+                </div>
+                <div class="absolute top-0.5 dark:top-1 text-sm px-1 dark:px-7 text-gray-700 ">
+                    <svg id="sun-icon" class="w-4 h-4 hidden" fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v2m0 14v2m9-10h-2m-14 0H3m15.364-7.364l-1.414 1.414m-12.02 12.02l-1.414-1.414m1.414-12.02l-1.414 1.414m12.02 12.02l-1.414-1.414M12 5a7 7 0 110 14 7 7 0 010-14z" />
+                    </svg>
+                    <svg id="moon-icon" class="w-4 h-4" fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.293 14.707A8 8 0 118.707 6.293a8 8 0 008.586 8.414z" />
+                    </svg>
+                </div>
+            </div>
+        </button>
+    </div>
+
+    <!-- Mobile Dropdown Menu -->
+    <div class="md:hidden hidden flex-col space-y-4 mt-4" id="mobile-menu">
+        <a href="#home" class="block bg-green-400 dark:bg-green-700 text-white py-2 px-4 rounded-full shadow-md font-semibold">
+            Home
+        </a>
+        <a href="#about" class="block hover:text-green-800 dark:hover:text-green-400 transition duration-300">
+            About
+        </a>
+        <a href="#service" class="block hover:text-green-800 dark:hover:text-green-400 transition duration-300">
+            Service
+        </a>
+        <a href="#resume" class="block hover:text-green-800 dark:hover:text-green-400 transition duration-300">
+            Resume
+        </a>
+        <a href="#project" class="block hover:text-green-800 dark:hover:text-green-400 transition duration-300">
+            Project
+        </a>
+        <a href="#contact" class="block hover:text-green-800 dark:hover:text-green-400 transition duration-300">
+            Contact
+        </a>
+    </div>
+</nav>
+
+    
+    
+    
+<script>
+    // Toggle for Mobile Menu
+    const menuToggle = document.getElementById('menu-toggle');
+    const mobileMenu = document.getElementById('mobile-menu');
+    menuToggle.addEventListener('click', () => {
+        mobileMenu.classList.toggle('hidden');
+    });
+
+    // Dark Mode Toggle
+    const darkModeToggle = document.getElementById('dark-mode-toggle');
+    const toggleCircle = document.getElementById('toggle-circle');
+    const sunIcon = document.getElementById('sun-icon');
+    const moonIcon = document.getElementById('moon-icon');
+    const darkToggleCheckbox = document.getElementById('dark-toggle');
+    
+    // Check saved theme in localStorage
+    const currentTheme = localStorage.getItem('theme') || 'light';
+    if (currentTheme === 'dark') {
+        document.documentElement.classList.add('dark');
+        sunIcon.classList.remove('hidden');
+        moonIcon.classList.add('hidden');
+        darkToggleCheckbox.checked = true;  // Ensure checkbox reflects dark mode state
+        toggleCircle.classList.add('translate-x-6');  // Move the toggle circle to the right
+    }
+
+    // Dark mode toggle functionality
+    darkModeToggle.addEventListener('click', () => {
+        // Toggle the dark mode class
+        const isDarkMode = document.documentElement.classList.toggle('dark');
+        
+        // Toggle the toggle circle position (move it left or right)
+        toggleCircle.classList.toggle('translate-x-6', isDarkMode);
+        
+        // Toggle icons
+        sunIcon.classList.toggle('hidden', !isDarkMode);
+        moonIcon.classList.toggle('hidden', isDarkMode);
+
+        // Update the checkbox state
+        darkToggleCheckbox.checked = isDarkMode;
+
+        // Save the user's theme preference
+        localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
+    });
+</script>
+
+    
+    
+
+    <!-- Hero Section -->
+    <header class="container mx-auto mt-16 px-6 md:px-12">
+        <h1 class="text-3xl md:text-5xl font-bold text-center leading-tight dark:text-white">
+            I'm <span class="text-green-500">Jenny</span>,<br> Product Designer
+        </h1>
+    
+        <div class="flex flex-col md:flex-row items-center md:items-start mt-8 space-y-8 md:space-y-0 md:space-x-12">
+            <!-- Left Section -->
+            <div class="flex-1 text-center md:text-left">
+                <p class="mt-4 text-gray-700 text-lg italic leading-relaxed dark:text-gray-200">
+                    "Jenny's exceptional product design ensures our website's success. Highly Recommended."
+                </p>
+            </div>
+    
+            <!-- Middle Section -->
+            <div class="flex-[2] text-center">
+                <div class="bg-green-100 rounded-full w-56 h-56 md:w-72 md:h-72 mx-auto relative shadow-lg overflow-hidden">
+                    <img src="{% static 'path-to-your-image.png' %}" alt="Jenny"
+                        class="rounded-full w-full h-full absolute top-0 left-0 object-cover">
+                </div>
+                <div class="mt-6 flex flex-wrap justify-center space-x-4">
+                    <a href="#"
+                        class="bg-green-500 text-white py-2 px-6 rounded-lg shadow-md hover:bg-green-600 transition">
+                        Portfolio
+                    </a>
+                    <a href="#"
+                        class="border-2 border-green-500 text-green-500 py-2 px-6 rounded-lg hover:bg-green-100 transition">
+                        Hire me
+                    </a>
+                </div>
+            </div>
+    
+            <!-- Right Section -->
+            <div class="flex-1 mt-8 md:mt-0 md:relative">
+                <div class="md:absolute md:static md:mt-4 lg:mt-0 right-0 md:right-auto">
+                    <p class="text-3xl font-bold text-green-500">10 Years</p>
+                    <p class="text-sm text-gray-700 dark:text-gray-200">Experience</p>
+                </div>
+            </div>
+        </div>
+    </header>
+    
+    
+
+  
+    
+    <section class="relative bg-gradient-to-r from-green-400 via-teal-400 to-emerald-500 py-16 overflow-hidden my-12">
+        <!-- Background Dots -->
+        <div class="absolute inset-0 z-0">
+            <!-- Synchronized Dot Animation -->
+            <svg class="absolute top-0 left-0 w-full h-full opacity-25 animate-pulse-dots" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+                <circle cx="10" cy="10" r="5" fill="white" class="dot"/>
+                <circle cx="-50" cy="10" r="5" fill="white" class="dot"/>
+                <circle cx="100" cy="10" r="5" fill="white" class="dot"/>
+                <circle cx="150" cy="10" r="5" fill="white" class="dot"/>
+                <circle cx="200" cy="10" r="5" fill="white" class="dot"/>
+    
+                <circle cx="10" cy="50" r="5" fill="white" class="dot"/>
+                <circle cx="50" cy="50" r="5" fill="white" class="dot"/>
+                <circle cx="-70" cy="50" r="5" fill="white" class="dot"/>
+                <circle cx="150" cy="50" r="5" fill="white" class="dot"/>
+                <circle cx="200" cy="50" r="5" fill="white" class="dot"/>
+    
+                <circle cx="-50" cy="100" r="5" fill="white" class="dot"/>
+                <circle cx="50" cy="100" r="5" fill="white" class="dot"/>
+                <circle cx="100" cy="100" r="5" fill="white" class="dot"/>
+                <circle cx="150" cy="100" r="5" fill="white" class="dot"/>
+                <circle cx="200" cy="100" r="5" fill="white" class="dot"/>
+    
+                <circle cx="10" cy="150" r="5" fill="white" class="dot"/>
+                <circle cx="50" cy="150" r="5" fill="white" class="dot"/>
+                <circle cx="-100" cy="150" r="5" fill="white" class="dot"/>
+                <circle cx="150" cy="150" r="5" fill="white" class="dot"/>
+                <circle cx="200" cy="150" r="5" fill="white" class="dot"/>
+            </svg>
+        </div>
+    
+        <!-- Content -->
+        <div class="flex flex-col lg:flex-row lg:space-x-12">
+            <!-- Left: Image and Basic Info -->
+            <div class="flex-[2]">
+                <div class="relative flex items-center justify-center mb-8 lg:mb-0">
+                    <div class="w-48 h-48 bg-gradient-to-b from-teal-300 via-teal-500 to-green-600 rounded-full shadow-lg overflow-hidden">
+                        <img src="{% static 'client1.jpg' %}" alt="Person" class="object-cover w-full h-full">
+                    </div>
+                </div>
+                <div class="text-center text-gray-900">
+                    <h2 class="text-2xl font-bold">Henry Theodore</h2>
+                    <p class="opacity-80">Enter Your Text</p>
+                    <p class="mt-4">Age: <span class="font-semibold">45</span></p>
+                    <p>Gender: <span class="font-semibold">Male</span></p>
+                    <p>Location: <span class="font-semibold">Southgate, Area51</span></p>
+                </div>
+            </div>
+    
+            <!-- Right: Details -->
+            <div class="flex-[4]">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <!-- Bio -->
+                    <div>
+                        <h3 class="text-xl font-semibold text-gray-800">Bio</h3>
+                        <p class="mt-2 text-gray-700 leading-relaxed">
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis tristique sollicitudin nibh.
+                        </p>
+                    </div>
+                    <!-- Wants -->
+                    <div>
+                        <h3 class="text-xl font-semibold text-gray-800">Wants</h3>
+                        <ul class="mt-2 space-y-2 text-gray-700">
+                            <li>Morbi tristique senectus</li>
+                            <li>Et netus et malesuada</li>
+                        </ul>
+                    </div>
+                    <!-- Needs -->
+                    <div>
+                        <h3 class="text-xl font-semibold text-gray-800">Needs</h3>
+                        <ul class="mt-2 space-y-2 text-gray-700">
+                            <li>Morbi tristique senectus</li>
+                            <li>Et netus et malesuada</li>
+                        </ul>
+                    </div>
+                    <!-- Frustrations -->
+                    <div>
+                        <h3 class="text-xl font-semibold text-gray-800">Frustrations</h3>
+                        <ul class="mt-2 space-y-2 text-gray-700">
+                            <li>Morbi tristique senectus</li>
+                            <li>Et netus et malesuada</li>
+                        </ul>
+                    </div>
+                </div>
+    
+                <!-- Skills -->
+                <div class="mt-12">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-4">Skills</h3>
+                    <div class="mb-4">
+                        <p class="text-gray-800">Skill One</p>
+                        <div class="w-full bg-gray-200 rounded-full h-2.5">
+                            <div class="bg-green-500 h-2.5 rounded-full" style="width: 85%;"></div>
+                        </div>
+                    </div>
+                    <div>
+                        <p class="text-gray-800">Skill Two</p>
+                        <div class="w-full bg-gray-200 rounded-full h-2.5">
+                            <div class="bg-green-500 h-2.5 rounded-full" style="width: 75%;"></div>
+                        </div>
+                    </div>
+                </div>
+    
+                <!-- Favorite Brands -->
+                <div class="mt-12">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-4">Favorite Brands</h3>
+                    <div class="flex space-x-6 justify-center">
+                        <div class="w-12 h-12 bg-gray-200 flex items-center justify-center rounded-full shadow-lg">
+                            <img src="https://via.placeholder.com/40" alt="Brand 1" class="h-8">
+                        </div>
+                        <div class="w-12 h-12 bg-gray-200 flex items-center justify-center rounded-full shadow-lg">
+                            <img src="https://via.placeholder.com/40" alt="Brand 2" class="h-8">
+                        </div>
+                        <div class="w-12 h-12 bg-gray-200 flex items-center justify-center rounded-full shadow-lg">
+                            <img src="https://via.placeholder.com/40" alt="Brand 3" class="h-8">
+                        </div>
+                        <div class="w-12 h-12 bg-gray-200 flex items-center justify-center rounded-full shadow-lg">
+                            <img src="https://via.placeholder.com/40" alt="Brand 4" class="h-8">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+   
+
+
+<section id="about"  class="relative bg-gradient-to-br from-green-500 via-teal-600 to-emerald-500 py-16 overflow-hidden my-12">
+    <!-- Background Bubbles -->
+    <div class="absolute inset-0 z-0">
+        <svg class="absolute top-0 left-0 w-full h-full opacity-25" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+            <!-- Smaller Bubbles -->
+            <circle cx="15" cy="30" r="4" fill="white" class="bubble-small" />
+            <circle cx="10" cy="20" r="4" fill="white" class="bubble-small" />
+            <circle cx="50" cy="60" r="4" fill="white" class="bubble-small" />
+            <circle cx="90" cy="100" r="4" fill="white" class="bubble-small" />
+
+            <circle cx="45" cy="75" r="3" fill="white" class="bubble-small" />
+            <circle cx="85" cy="110" r="5" fill="white" class="bubble-small" />
+            <circle cx="130" cy="150" r="4" fill="white" class="bubble-small" />
+            <circle cx="160" cy="190" r="3" fill="white" class="bubble-small" />
+        </svg>
+    </div>
+
+    <!-- Content -->
+    <div class="flex flex-col lg:flex-row lg:space-x-12">
+        <!-- Left: Image and Basic Info -->
+        <div class="flex-[2]">
+            <div class="relative flex items-center justify-center mb-8 lg:mb-0">
+                <div class="w-48 h-48 bg-gradient-to-b from-teal-300 via-teal-500 to-green-600 rounded-full shadow-lg overflow-hidden">
+                    <img src="{% static 'client1.jpg' %}" alt="Person" class="object-cover w-full h-full">
+                </div>
+            </div>
+            <div class="text-center text-gray-900">
+                <h2 class="text-2xl font-bold">Henry Theodore</h2>
+                <p class="opacity-80">Enter Your Text</p>
+                <p class="mt-4">Age: <span class="font-semibold">45</span></p>
+                <p>Gender: <span class="font-semibold">Male</span></p>
+                <p>Location: <span class="font-semibold">Southgate, Area51</span></p>
+            </div>
+        </div>
+
+        <!-- Right: Details -->
+        <div class="flex-[4]">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- Bio -->
+                <div>
+                    <h3 class="text-xl font-semibold text-gray-800">Bio</h3>
+                    <p class="mt-2 text-gray-700 leading-relaxed">
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis tristique sollicitudin nibh.
+                    </p>
+                </div>
+                <!-- Wants -->
+                <div>
+                    <h3 class="text-xl font-semibold text-gray-800">Wants</h3>
+                    <ul class="mt-2 space-y-2 text-gray-700">
+                        <li>Morbi tristique senectus</li>
+                        <li>Et netus et malesuada</li>
+                    </ul>
+                </div>
+                <!-- Needs -->
+                <div>
+                    <h3 class="text-xl font-semibold text-gray-800">Needs</h3>
+                    <ul class="mt-2 space-y-2 text-gray-700">
+                        <li>Morbi tristique senectus</li>
+                        <li>Et netus et malesuada</li>
+                    </ul>
+                </div>
+                <!-- Frustrations -->
+                <div>
+                    <h3 class="text-xl font-semibold text-gray-800">Frustrations</h3>
+                    <ul class="mt-2 space-y-2 text-gray-700">
+                        <li>Morbi tristique senectus</li>
+                        <li>Et netus et malesuada</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Skills -->
+            <div class="mt-12">
+                <h3 class="text-xl font-semibold text-gray-800 mb-4">Skills</h3>
+                <div class="mb-4">
+                    <p class="text-gray-800">Skill One</p>
+                    <div class="w-5/6 bg-gray-200 rounded-full h-2.5">
+                        <div class="bg-green-500 h-2.5 rounded-full" style="width: 85%;"></div>
+                    </div>
+                </div>
+                <div>
+                    <p class="text-gray-800">Skill Two</p>
+                    <div class="w-5/6 bg-gray-200 rounded-full h-2.5">
+                        <div class="bg-green-500 h-2.5 rounded-full" style="width: 75%;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Favorite Brands -->
+            <div class="mt-12">
+                <h3 class="text-xl font-semibold text-gray-800 mb-4">Favorite Brands</h3>
+                <div class="flex space-x-6 justify-center">
+                    <div class="w-12 h-12 bg-gray-200 flex items-center justify-center rounded-full shadow-lg">
+                        <img src="https://via.placeholder.com/40" alt="Brand 1" class="h-8">
+                    </div>
+                    <div class="w-12 h-12 bg-gray-200 flex items-center justify-center rounded-full shadow-lg">
+                        <img src="https://via.placeholder.com/40" alt="Brand 2" class="h-8">
+                    </div>
+                    <div class="w-12 h-12 bg-gray-200 flex items-center justify-center rounded-full shadow-lg">
+                        <img src="https://via.placeholder.com/40" alt="Brand 3" class="h-8">
+                    </div>
+                    <div class="w-12 h-12 bg-gray-200 flex items-center justify-center rounded-full shadow-lg">
+                        <img src="https://via.placeholder.com/40" alt="Brand 4" class="h-8">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+    <div class="flex items-center justify-center min-h-screen bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500 relative">
+        <!-- Background Text -->
+        <div class="absolute inset-0 text-white text-5xl font-bold opacity-10 flex justify-center items-center">
+            Background Text
+        </div>
+
+        <!-- Glass Card -->
+        <div class="relative p-8 rounded-2xl shadow-xl backdrop-blur-md bg-white/20 border border-white/10">
+            <h2 class="text-3xl font-bold text-gray-900">Glass Card</h2>
+            <p class="mt-4 text-gray-700">
+                This is a frosted glass-like card. The text behind the card is visible, creating a modern glass effect.
+            </p>
+            <button class="mt-6 px-6 py-2 bg-green-500 text-white font-semibold rounded-full hover:bg-green-600">
+                Learn More
+            </button>
+        </div>
+    </div>
+
+
+
+    <div class="flex items-center justify-center min-h-screen bg-gradient-to-br from-green-500 via-teal-600 to-emerald-500 relative">
+        <!-- Background Text -->
+        <div class="absolute inset-0 text-gray-200 text-5xl font-bold opacity-10 flex justify-center items-center">
+            Background Text
+        </div>
+
+        <!-- Glass Card -->
+        <div class="relative p-8 rounded-2xl shadow-lg backdrop-blur-md bg-white/10 border border-white/20">
+            <h2 class="text-2xl font-bold text-gray-100">Glass Card</h2>
+            <p class="mt-4 text-gray-300">
+                This is a frosted glass-like card with a dark green theme. The text behind the card remains visible,
+                creating a modern glass effect.
+            </p>
+            <button class="mt-6 px-6 py-2 bg-green-700 text-gray-100 font-semibold rounded-full hover:bg-green-600">
+                Learn More
+            </button>
+        </div>
+    </div>
+
+    <div
+    class="flex items-center justify-center min-h-screen bg-gradient-to-br from-green-500 via-teal-600 to-emerald-500 relative">
+    <!-- Background Text -->
+    <div class="absolute inset-0 text-gray-200 text-6xl font-extrabold opacity-5 flex justify-center items-center tracking-widest">
+        BACKGROUND TEXT
+    </div>
+
+    <!-- Glass Card -->
+    <div
+        class="relative p-10 rounded-3xl shadow-2xl bg-gradient-to-br from-white/30 to-white/10 backdrop-blur-md border border-white/20">
+        <!-- Inner Glow Effect -->
+        <div class="absolute inset-0 bg-gradient-to-br from-white/60 to-transparent opacity-10 rounded-3xl pointer-events-none"></div>
+
+        <!-- Card Header -->
+        <h2 class="text-3xl font-bold text-gray-900 mb-4 text-center">
+            Stunning Glass Card
+        </h2>
+        <!-- Divider Line -->
+        <div class="w-20 h-1 mx-auto bg-gradient-to-r from-green-400 to-teal-500 rounded-full mb-6"></div>
+        <!-- Card Content -->
+        <p class="text-gray-600 text-center leading-relaxed">
+            Elevate your design with this frosted glass effect. The seamless blend of modern aesthetics and vibrant green hues adds elegance to your UI.
+        </p>
+        <!-- Button -->
+        <div class="mt-8 flex justify-center">
+            <button
+                class="px-8 py-3 bg-gradient-to-r from-teal-500 to-green-500 text-gray-900 font-semibold rounded-full shadow-lg transform hover:scale-105 transition duration-300">
+                Learn More
+            </button>
+        </div>
+    </div>
+</div>
+
+
+
+    <!-- <div class="flex items-center justify-center min-h-screen bg-black relative">
+        
+        <div
+            class="absolute inset-8 text-green-600 text-right text-5xl font-mono opacity-20 leading-none tracking-wide">
+            010101010101<br />101010101010<br />010101010101<br />101010101010
+        </div>
+
+       
+        <div class="relative p-8 rounded-2xl shadow-xl backdrop-blur-md bg-white/5 border border-green-500/30">
+            <h2 class="text-2xl font-bold text-green-500 tracking-widest">ACCESS GRANTED</h2>
+            <p class="mt-4 text-green-400 font-mono">
+                Welcome to the system. The glass card effect brings a sleek hacker vibe while text remains visible in
+                the background.
+            </p>
+            <button
+                class="mt-6 px-6 py-2 bg-green-600 text-black font-bold font-mono rounded-full hover:bg-green-500 shadow-lg">
+                Proceed
+            </button>
+        </div>
+    </div> -->
+
+
+    <!-- My Services Section -->
+    <!-- <section class="relative py-16 mt-8 rounded-3xl service bg-[url('/static/servicebg.png')] bg-cover bg-center"> -->
+        <section id="service" class="py-16 mt-8 rounded-3xl min-h-screen bg-black relative overflow-hidden">
+            <!-- Background Gradient -->
+            <div class="absolute inset-0 bg-gradient-to-b from-black via-gray-900 to-black opacity-80 z-0"></div>
+            
+            <!-- Falling Matrix Effect: Layer 1 -->
+            <div class="absolute animate-[falling_10s_linear_infinite] text-green-500 opacity-10 text-[120px] font-mono leading-none tracking-widest z-10">
+                0101010101010101010101
+            </div>
+            
+            <!-- Falling Matrix Effect: Layer 2 -->
+            <div class="absolute animate-[fallingReverse_15s_linear_infinite] text-green-500 opacity-20 text-[100px] font-mono leading-none tracking-wide z-10">
+                1010101010101010101010
+            </div>
+        
+            <!-- Shaded Binary Code -->
+            <!-- <div
+                class="absolute inset-32 text-green-400 text-left text-[70px] font-mono opacity-20 leading-none tracking-wide z-5">
+                010101010101
+            </div>
+            <div
+                class="absolute inset-6 text-green-600 text-right text-[80px] font-mono opacity-10 leading-none tracking-wide z-5">
+                101010101010
+            </div>
+            <div
+                class="absolute inset-y-96 text-green-500 text-[120px] font-mono opacity-15 leading-none tracking-wide z-5">
+                010101010101
+            </div>
+            <div
+                class="absolute inset-x-10 text-green-400 text-[90px] font-mono opacity-10 leading-none tracking-wide z-5">
+                101010101010
+            </div> -->
+            
+            
+        <div class="mx-12 relative z-10 mb-16 md:flex justify-between">
+            <h2 class="text-4xl font-bold text-gray-100">My <span class="text-green-500">Services</span></h2>
+            <p class="text-gray-100 mt-4">Delivering professional designs and exceptional quality <br> to meet your
+                expectations.</p>
+        </div>
+        <div class="relative">
+            <div class="container mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 px-6 relative z-10">
+                <!-- Service Card -->
+                <div
+                    class="relative group flex flex-col items-center text-center transition-transform duration-300 transform bg-gradient-to-br from-gray-900 via-gray-800 to-black bg-opacity-50 backdrop-blur-xl shadow-lg rounded-3xl p-8 hover:-translate-y-3 hover:shadow-2xl hover:bg-opacity-10 border-2 border-gray-700 border-opacity-50 group-hover:bg-gradient-to-br group-hover:from-gray-900 group-hover:via-gray-600 group-hover:to-gray-800">
+                    <div
+                        class="absolute inset-0.5 rounded-3xl bg-gradient-to-r from-green-500 via-green-400 to-green-600 opacity-0 group-hover:opacity-10 blur-2xl transition-all duration-500">
+                    </div>
+
+                    <!-- Image Section (with Gradient Border) -->
+                    <div
+                        class="relative mb-6 rounded-xl bg-gradient-to-br from-green-500 to-green-600 p-[2px] shadow-lg transform transition-all duration-500 hover:scale-105">
+                        <img src="{% static 'servicebg.png' %}" alt="UI/UX Design"
+                            class="object-cover m-0.5 h-48 rounded-lg shadow-inner transition-transform duration-300" />
+                    </div>
+                    <!-- Title -->
+                    <h3 class="text-2xl font-extrabold text-gray-50 mb-2">UI/UX Design</h3>
+                    <!-- Subtle Divider -->
+                    <div class="w-12 h-1 bg-gradient-to-r from-green-400 to-green-600 rounded-full mb-4"></div>
+                    <!-- Description -->
+                    <p class="text-gray-300 text-sm mb-6 leading-relaxed">
+                        Crafting intuitive and visually appealing interfaces for seamless user experiences that truly
+                        stand out.
+                    </p>
+                    <!-- Call-to-Action Button -->
+                    <a href="#"
+                        class="flex items-center justify-center w-12 h-12 rounded-full bg-green-500 bg-opacity-80 shadow-lg hover:bg-green-600 transition-all duration-300 hover:shadow-xl text-white">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                            class="w-5 h-5">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                        </svg>
+                    </a>
+                </div>
+                <div
+                    class="relative group flex flex-col items-center text-center transition-transform duration-300 transform bg-gradient-to-br from-gray-900 via-gray-800 to-black bg-opacity-50 backdrop-blur-xl shadow-lg rounded-3xl p-8 hover:-translate-y-3 hover:shadow-2xl hover:bg-opacity-10 border-2 border-gray-700 border-opacity-50 group-hover:bg-gradient-to-br group-hover:from-gray-900 group-hover:via-gray-600 group-hover:to-gray-800">
+                    <div
+                        class="absolute inset-0.5 rounded-3xl bg-gradient-to-r from-green-500 via-green-400 to-green-600 opacity-0 group-hover:opacity-10 blur-2xl transition-all duration-500">
+                    </div>
+
+                    <!-- Image Section (with Gradient Border) -->
+                    <div
+                        class="relative mb-6 rounded-xl bg-gradient-to-br from-green-500 to-green-600 p-[2px] shadow-lg transform transition-all duration-500 hover:scale-105">
+                        <img src="{% static 'servicebg.png' %}" alt="UI/UX Design"
+                            class="object-cover m-0.5 h-48 rounded-lg shadow-inner transition-transform duration-300" />
+                    </div>
+                    <!-- Title -->
+                    <h3 class="text-2xl font-extrabold text-gray-50 mb-2">UI/UX Design</h3>
+                    <!-- Subtle Divider -->
+                    <div class="w-12 h-1 bg-gradient-to-r from-green-400 to-green-600 rounded-full mb-4"></div>
+                    <!-- Description -->
+                    <p class="text-gray-300 text-sm mb-6 leading-relaxed">
+                        Crafting intuitive and visually appealing interfaces for seamless user experiences that truly
+                        stand out.
+                    </p>
+                    <!-- Call-to-Action Button -->
+                    <a href="#"
+                        class="flex items-center justify-center w-12 h-12 rounded-full bg-green-500 bg-opacity-80 shadow-lg hover:bg-green-600 transition-all duration-300 hover:shadow-xl text-white">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                            class="w-5 h-5">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                        </svg>
+                    </a>
+                </div>
+                <div
+                    class="relative group flex flex-col items-center text-center transition-transform duration-300 transform bg-gradient-to-br from-gray-900 via-gray-800 to-black bg-opacity-50 backdrop-blur-xl shadow-lg rounded-3xl p-8 hover:-translate-y-3 hover:shadow-2xl hover:bg-opacity-10 border-2 border-gray-700 border-opacity-50 group-hover:bg-gradient-to-br group-hover:from-gray-900 group-hover:via-gray-600 group-hover:to-gray-800">
+                    <div
+                        class="absolute inset-0.5 rounded-3xl bg-gradient-to-r from-green-500 via-green-400 to-green-600 opacity-0 group-hover:opacity-10 blur-2xl transition-all duration-500">
+                    </div>
+
+                    <!-- Image Section (with Gradient Border) -->
+                    <div
+                        class="relative mb-6 rounded-xl bg-gradient-to-br from-green-500 to-green-600 p-[2px] shadow-lg transform transition-all duration-500 hover:scale-105">
+                        <img src="{% static 'servicebg.png' %}" alt="UI/UX Design"
+                            class="object-cover m-0.5 h-48 rounded-lg shadow-inner transition-transform duration-300" />
+                    </div>
+                    <!-- Title -->
+                    <h3 class="text-2xl font-extrabold text-gray-50 mb-2">UI/UX Design</h3>
+                    <!-- Subtle Divider -->
+                    <div class="w-12 h-1 bg-gradient-to-r from-green-400 to-green-600 rounded-full mb-4"></div>
+                    <!-- Description -->
+                    <p class="text-gray-300 text-sm mb-6 leading-relaxed">
+                        Crafting intuitive and visually appealing interfaces for seamless user experiences that truly
+                        stand out.
+                    </p>
+                    <!-- Call-to-Action Button -->
+                    <a href="#"
+                        class="flex items-center justify-center w-12 h-12 rounded-full bg-green-500 bg-opacity-80 shadow-lg hover:bg-green-600 transition-all duration-300 hover:shadow-xl text-white">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                            class="w-5 h-5">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="project"  class="py-16 bg-white">
+        <div class="text-center mb-12">
+            <h2 class="text-4xl font-bold text-gray-900">
+                My <span class="text-green-500">Work Experience</span>
+            </h2>
+        </div>
+    
+        <!-- Grid Container -->
+        {% for experience in experiences %}
+        <div class="grid grid-cols-3 gap-4 mx-6 md:mx-20 items-stretch">
+            <!-- Left Column -->
+            <div class="flex flex-col justify-between lg:ml-40 mt-2 ">
+                <div>
+                    <h3 class="text-2xl font-bold text-gray-900">{{ experience.company }}</h3>
+                    <p class="text-gray-700">{{ experience.period }}</p>
+                </div>
+            </div>
+    
+            <!-- Timeline Column -->
+            <div class="flex flex-col items-center relative">
+                <!-- Top Circle -->
+                <div class="p-1 border border-dotted border-black rounded-full">
+                    <div class="w-8 h-8 bg-green-500 rounded-full"></div>
+                </div>
+                <!-- Line (skip for the last experience) -->
+                {% if not forloop.last %}
+                <div class="flex-grow w-0.5 bg-black"></div>
+                {% endif %}
+            </div>
+    
+            <!-- Right Column -->
+            <div class="flex flex-col justify-between mt-2 lg:mb-4">
+                <div>
+                    <h3 class="text-2xl font-bold text-gray-900">{{ experience.title }}</h3>
+                    <p class="text-gray-700">{{ experience.description }}</p>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </section>
+    
+    
+    
+    <section class="py-16 mt-8 min-h-screen bg-black relative overflow-hidden">
+        <!-- Background Gradient -->
+        <div class="absolute inset-0 bg-gradient-to-b from-black via-gray-900 to-black opacity-80 z-0"></div>
+        
+        <!-- Falling Matrix Effect: Layer 1 -->
+        <div class="absolute animate-[falling_10s_linear_infinite] text-green-500 opacity-10 text-[120px] font-mono leading-none tracking-widest z-10">
+            0101010101010101010101
+        </div>
+    
+        <!-- Falling Matrix Effect: Layer 2 -->
+        <div class="absolute animate-[fallingReverse_15s_linear_infinite] text-green-500 opacity-20 text-[100px] font-mono leading-none tracking-wide z-10">
+            1010101010101010101010
+        </div>
+    
+        <!-- Section Header -->
+        <div class="mx-12 relative z-10 mb-16 md:flex justify-between">
+            <h2 class="text-4xl font-bold text-gray-100">What Our <span class="text-green-500">Clients Say</span></h2>
+            <p class="text-gray-100 mt-4">Hear from those who have experienced our exceptional services.</p>
+        </div>
+    
+        <!-- Testimonials Section -->
+        <div class="relative">
+            <!-- Horizontal Scroll Container -->
+            <div class="container mx-auto overflow-x-auto whitespace-nowrap px-6 relative z-10 space-x-6" style="-ms-overflow-style: none; scrollbar-width: none;">
+                {% for testimonial in testimonials %}
+                <div class="inline-block w-[80%] md:w-[40%] h-full bg-gradient-to-br from-gray-900 via-gray-800 to-black bg-opacity-50 backdrop-blur-xl shadow-lg rounded-3xl p-8 border-2 border-gray-700 border-opacity-50">
+                    <div class="flex flex-col items-center text-center">
+                        <!-- Client Image -->
+                        <div class="mb-6 rounded-full bg-gradient-to-br from-green-500 to-green-600 p-[2px] shadow-lg transform transition-all duration-500 hover:scale-105">
+                            <img src="{{ testimonial.image }}" alt="{{ testimonial.name }}"
+                                class="object-cover h-24 w-24 rounded-full shadow-inner transition-transform duration-300" />
+                        </div>
+                        <!-- Client Name -->
+                        <h3 class="text-2xl font-extrabold text-gray-50 mb-2">{{ testimonial.name }}</h3>
+                        <!-- Star Rating -->
+                        <div class="flex justify-center mb-4">
+                            {% for _ in testimonial.rating_range %}
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" stroke="none" class="w-5 h-5 text-yellow-400">
+                                <path d="M12 .587l3.668 7.429 8.191 1.191-5.916 5.764 1.395 8.129L12 18.573l-7.338 3.857 1.395-8.129-5.916-5.764 8.191-1.191L12 .587z"/>
+                            </svg>
+                            {% endfor %}
+                            {% for _ in testimonial.empty_range %}
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-5 h-5 text-gray-500">
+                                <path d="M12 .587l3.668 7.429 8.191 1.191-5.916 5.764 1.395 8.129L12 18.573l-7.338 3.857 1.395-8.129-5.916-5.764 8.191-1.191L12 .587z" />
+                            </svg>
+                            {% endfor %}
+                        </div>
+                        <!-- Subtle Divider -->
+                        <div class="w-12 h-1 bg-gradient-to-r from-green-400 to-green-600 rounded-full mb-4"></div>
+                        <!-- Testimonial -->
+                        <p class="text-gray-300 text-sm mb-6 leading-relaxed">
+                            "{{ testimonial.message }}"
+                        </p>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+    
+    
+    
+
+    <footer id="contact" class="bg-gray-900 text-gray-300 py-12 rounder-md">
+        <div class="grid gird-col-2 mx-24">
+            <p class="text-4xl text-gray-100 px-6 font-semibold">Let's Connect</p>
+        </div>
+        <div class="border-t border-gray-700 mt-12 container mx-auto p-6">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <!-- Brand Section -->
+                <div>
+                    <h3 class="text-white text-2xl font-bold mb-4">JCREA</h3>
+                    <p class="text-sm">
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed congue interdum ligula a dignissim.
+                        Sed lobortis orci elementum egestas lobortis.
+                    </p>
+                    <!-- Social Icons -->
+                    <div class="flex items-center gap-4 mt-4">
+                        <a href="#" class="text-gray-400 hover:text-white">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white">
+                            <i class="fab fa-whatsapp"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Navigation Section -->
+                <div>
+                    <h3 class="text-green-500 text-lg font-bold mb-4">Navigation</h3>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="#" class="hover:text-white">Home</a></li>
+                        <li><a href="#" class="hover:text-white">About Us</a></li>
+                        <li><a href="#" class="hover:text-white">Service</a></li>
+                        <li><a href="#" class="hover:text-white">Resume</a></li>
+                        <li><a href="#" class="hover:text-white">Project</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contact Section -->
+                <div>
+                    <h3 class="text-green-500 text-lg font-bold mb-4">Contact</h3>
+                    <ul class="space-y-2 text-sm">
+                        <li><span class="block">+91 7738443636</span></li>
+                        <li><span class="block">Jaycrea36@gmail.com</span></li>
+                        <li><span class="block">Portfolio-jcrea.com</span></li>
+                    </ul>
+                </div>
+
+                <!-- Subscription Section -->
+                <div>
+                    <h3 class="text-green-500 text-lg font-bold mb-4">Get the latest information</h3>
+                    <form action="#" class="flex items-center gap-2">
+                        <input type="email" placeholder="Email Address"
+                            class="px-4 py-2 rounded-full text-black text-sm flex-1 focus:ring-2 focus:ring-green-500 focus:outline-none" />
+                        <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded-full hover:bg-green-600">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor" class="w-5 h-5">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M13 16h-1v-4h-1m4 4h-1m-4-8V5a2 2 0 012-2h1.5M13 5v4m0 0h4" />
+                            </svg>
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Footer Bottom Section -->
+            <div class="border-t border-gray-700 mt-12 pt-6 flex flex-col md:flex-row justify-between items-center">
+                <p class="text-sm text-gray-500">
+                    Copyright© 2023 Jayesh. All Rights Reserved.
+                </p>
+                <div class="flex items-center space-x-4 text-sm">
+                    <a href="#" class="hover:text-white">User Terms & Conditions</a>
+                    <span>|</span>
+                    <a href="#" class="hover:text-white">Privacy Policy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+</body>
+
+</html>

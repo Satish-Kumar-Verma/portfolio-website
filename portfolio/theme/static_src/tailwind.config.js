@@ -41,6 +41,8 @@ module.exports = {
          */
         // '../../**/*.py'
     ],
+    darkMode: 'class', // Enable dark mode based on the 'dark' class on the root element
+    variants: {},
     theme: {
         extend: {},
     },
@@ -55,3 +57,5 @@ module.exports = {
         require('@tailwindcss/aspect-ratio'),
     ],
 }
+
+  
